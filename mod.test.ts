@@ -16,8 +16,8 @@ Deno.test('Works simple conversation', async () => {
     provider: 'test',
     specificationVersion: 'v1',
     defaultObjectGenerationMode: 'tool',
-    async doGenerate() {
-      return {
+    doGenerate() {
+      return Promise.resolve({
         rawCall: {
           rawPrompt: '',
           rawSettings: {},
@@ -25,16 +25,16 @@ Deno.test('Works simple conversation', async () => {
         finishReason: 'stop',
         usage: USAGE,
         text: TEXT,
-      }
+      })
     },
-    async doStream() {
-      return {
+    doStream() {
+      return Promise.resolve({
         rawCall: {
           rawPrompt: '',
           rawSettings: {},
         },
         stream: new ReadableStream({}),
-      }
+      })
     },
   }
 
@@ -83,18 +83,18 @@ Deno.test('Streaming', async () => {
     provider: 'test',
     specificationVersion: 'v1',
     defaultObjectGenerationMode: 'tool',
-    async doGenerate() {
-      return {
+    doGenerate() {
+      return Promise.resolve({
         rawCall: {
           rawPrompt: '',
           rawSettings: {},
         },
         finishReason: 'stop',
         usage: USAGE,
-      }
+      })
     },
-    async doStream() {
-      return {
+    doStream() {
+      return Promise.resolve({
         rawCall: {
           rawPrompt: '',
           rawSettings: {},
@@ -115,7 +115,7 @@ Deno.test('Streaming', async () => {
             controller.close()
           },
         }),
-      }
+      })
     },
   }
 
