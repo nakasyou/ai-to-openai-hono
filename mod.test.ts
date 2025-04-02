@@ -155,3 +155,33 @@ Deno.test('Streaming', async () => {
     prompt_tokens: USAGE.promptTokens,
   })
 })
+
+Deno.test('Verify API key', async () => {
+  const app = createOpenAICompat({
+    verifyAPIKey: (key) => key === 'test',
+    languageModels: {},
+  })
+
+  assertEquals((await app.request('/v1/chat/completions', {
+    method: 'POST',
+  })).status, 403)
+  assertEquals(
+    (await app.request('/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        Authorization: 'Bearer test',
+      },
+      body: `{}`
+    })).status,
+    400, // model not found
+  )
+  assertEquals(
+    (await app.request('/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        Authorization: 'Bearer test2',
+      },
+    })).status,
+    403,
+  )
+})

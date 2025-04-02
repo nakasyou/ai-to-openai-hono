@@ -61,7 +61,11 @@ const STOP_REASON: Record<
  * Options to init
  */
 export interface Init {
-  languageModels: Record<string, LanguageModelV1>
+  languageModels:
+    | Record<string, LanguageModelV1>
+    | ((
+      modelId: string,
+    ) => Promise<LanguageModelV1 | null> | LanguageModelV1 | null)
 
   /**
    * @default `() => true`
@@ -103,7 +107,9 @@ export const createOpenAICompat = (init: Init): Hono => {
   app.post('/v1/chat/completions', async (c) => {
     const body = await c.req.json<ChatCompletionCreateParams>()
 
-    const model = init.languageModels[body.model]
+    const model = typeof init.languageModels === 'function'
+      ? await init.languageModels(body.model)
+      : init.languageModels[body.model]
     if (!model) {
       throw new HTTPException(400, {
         message: 'Invalid model',
