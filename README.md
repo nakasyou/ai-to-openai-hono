@@ -35,8 +35,8 @@ app.route(
 export default app
 ```
 
-Next, run your Hono server. The OpenAI-compatible endpoint will then be available.
-
+Next, run your Hono server. The OpenAI-compatible endpoint will then be
+available.
 
 ```ts
 import { OpenAI } from 'openai'
