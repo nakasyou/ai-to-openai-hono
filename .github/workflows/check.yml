@@ -1,0 +1,30 @@
+name: Deno
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v4
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - name: Run linter
+        run: deno lint
+
+      - name: Run format check
+        run: deno fmt --check
+
+      - name: Run tests
+        run: deno test -A

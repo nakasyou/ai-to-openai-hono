@@ -1,0 +1,16 @@
+{
+  "name": "@ns/ai-to-openai-hono",
+  "version": "0.1.0",
+  "exports": "./mod.ts",
+  "fmt": {
+    "semiColons": false,
+    "singleQuote": true
+  },
+  "imports": {
+    "@ai-sdk/provider": "npm:@ai-sdk/provider@^1.1.0",
+    "@std/assert": "jsr:@std/assert@^1.0.12",
+    "ai": "npm:ai@^4.2.10",
+    "hono": "npm:hono@^4.7.5",
+    "openai": "npm:openai@^4.91.1"
+  }
+}
