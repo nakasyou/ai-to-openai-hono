@@ -162,16 +162,19 @@ Deno.test('Verify API key', async () => {
     languageModels: {},
   })
 
-  assertEquals((await app.request('/v1/chat/completions', {
-    method: 'POST',
-  })).status, 403)
+  assertEquals(
+    (await app.request('/v1/chat/completions', {
+      method: 'POST',
+    })).status,
+    403,
+  )
   assertEquals(
     (await app.request('/v1/chat/completions', {
       method: 'POST',
       headers: {
         Authorization: 'Bearer test',
       },
-      body: `{}`
+      body: `{}`,
     })).status,
     400, // model not found
   )
